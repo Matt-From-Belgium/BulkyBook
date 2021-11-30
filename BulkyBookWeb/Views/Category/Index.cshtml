@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<partial name="_Notification"/>
 <h1>Index Category</h1>
 <div class="container p-3">
     <div class="row pt-4">
@@ -36,7 +36,7 @@
                 <td>
                     <div class="w-150 btn-group" role="group">
                         <a class="btn btn-primary" style="width:100px" asp-action="Edit" asp-route-id=@category.Id><i class="bi bi-pencil-square"></i>&nbsp; Edit</a>&nbsp;
-                        <a class="btn btn-primary" style="width:100px" asp-action="Delete" asp-route-id=@category.Id><i class="bi bi-trash"></i>&nbsp; Delete</a>
+                        <a class="btn btn-danger" style="width:100px" asp-action="Delete" asp-route-id=@category.Id><i class="bi bi-trash"></i>&nbsp; Delete</a>
                     </div>
                 </td>
             </tr>

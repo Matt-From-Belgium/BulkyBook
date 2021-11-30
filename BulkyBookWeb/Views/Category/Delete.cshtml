@@ -12,12 +12,10 @@
         <div class="mb-3">
             <label asp-for="Name"></label>
             <input class="form-control" asp-for="Name" disabled />
-            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="mb-3">
             <label asp-for="DisplayOrder"></label>
             <input class="form-control" asp-for="DisplayOrder" disabled />
-            <span class="text-danger" asp-validation-for="DisplayOrder"></span>
         </div>
         <button type="submit" class="btn btn-primary" style="width:150px">Confirm</button>&nbsp;
         <a class="btn btn-primary" asp-controller="Category" asp-action="Index" style="width:150px">Back to list</a>
