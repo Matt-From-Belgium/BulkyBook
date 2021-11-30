@@ -12,6 +12,7 @@
         </div>
         <div class="col-6 text-end">
             <a asp-controller="Category" asp-action="Create" class="btn-primary btn"><i class="bi bi-plus-circle"></i> Create new category</a>
+            
         </div>
     </div>
 </div>
@@ -19,7 +20,7 @@
 <table class="table table-bordered table-striped" style="width=100%">
     <thead>
         <tr>
-            <th>Category Name</th><th>Display order</th>
+            <th>Category Name</th><th>Display order</th><th>Links</th>
         </tr>
     </thead>
     <tbody>
@@ -31,6 +32,12 @@
                 </td>
                 <td width=50%>
                     @category.DisplayOrder
+                </td>
+                <td>
+                    <div class="w-150 btn-group" role="group">
+                        <a class="btn btn-primary" style="width:100px" asp-action="Edit" asp-route-id=@category.Id><i class="bi bi-pencil-square"></i>&nbsp; Edit</a>&nbsp;
+                        <a class="btn btn-primary" style="width:100px" asp-action="Delete" asp-route-id=@category.Id><i class="bi bi-trash"></i>&nbsp; Delete</a>
+                    </div>
                 </td>
             </tr>
         }
