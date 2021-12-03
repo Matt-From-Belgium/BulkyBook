@@ -2,7 +2,7 @@
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBookWeb.Controllers
+namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     public class CoverTypeController : Controller
     {
@@ -38,7 +38,7 @@ namespace BulkyBookWeb.Controllers
 
         public IActionResult Edit(int id)
         {
-            var coverTypeFromDb = _unitOfWork.CoverType.GetFirstOrDefault(c=>c.Id==id);
+            var coverTypeFromDb = _unitOfWork.CoverType.GetFirstOrDefault(c => c.Id == id);
             if (coverTypeFromDb == null)
             {
                 return NotFound();
