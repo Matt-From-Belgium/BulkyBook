@@ -59,5 +59,24 @@ namespace BulkyBookWeb.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Delete(int id)
+        {
+            var coverTypeFromDb = _unitOfWork.CoverType.GetFirstOrDefault(c => c.Id == id);
+            if (coverTypeFromDb == null)
+            {
+                return NotFound();
+            }
+
+            return View(coverTypeFromDb);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(CoverType coverType)
+        {
+            _unitOfWork.CoverType.Remove(coverType);
+            _unitOfWork.Save();
+            return RedirectToAction("Index");
+        }
     }
 }
