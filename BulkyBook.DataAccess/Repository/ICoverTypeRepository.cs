@@ -9,6 +9,6 @@ namespace BulkyBook.DataAccess.Repository
 {
     public interface ICoverTypeRepository:IRepository<CoverType>
     {
-        public void Update();
+        public void Update(CoverType coverType);
     }
 }

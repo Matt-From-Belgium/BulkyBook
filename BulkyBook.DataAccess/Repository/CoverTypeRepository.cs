@@ -15,9 +15,9 @@ namespace BulkyBook.DataAccess.Repository
         {
             _db = db;
         }
-        public void Update()
+        public void Update(CoverType coverType)
         {
-            throw new NotImplementedException();
+            _db.CoverTypes.Update(coverType);
         }
     }
 }
