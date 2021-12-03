@@ -32,6 +32,7 @@ namespace BulkyBookWeb.Controllers
 
             _unitOfWork.CoverType.Add(newCoverType);
             _unitOfWork.Save();
+            TempData["Success"] = "Cover type has been added";
             return RedirectToAction("Index");
         }
 
@@ -56,7 +57,7 @@ namespace BulkyBookWeb.Controllers
 
             _unitOfWork.CoverType.Update(updatedCoverType);
             _unitOfWork.Save();
-
+            TempData["Success"] = "Cover type has been updated";
             return RedirectToAction("Index");
         }
 
@@ -76,6 +77,7 @@ namespace BulkyBookWeb.Controllers
         {
             _unitOfWork.CoverType.Remove(coverType);
             _unitOfWork.Save();
+            TempData["Success"] = "Cover type has been deleted";
             return RedirectToAction("Index");
         }
     }
