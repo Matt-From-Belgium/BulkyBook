@@ -12,6 +12,7 @@ namespace BulkyBook.Models
         [Key]
         public int Id { get; set; }
         [Required]
+        [Display(Name ="Cover type name")]
         public string Name { get; set; }
     }
 }
