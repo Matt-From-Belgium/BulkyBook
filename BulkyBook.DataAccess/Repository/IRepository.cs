@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BulkyBook.DataAccess.Repository
 {
-    public interface IRepostory<T> where T : class
+    public interface IRepository<T> where T : class
     {
         IEnumerable<T> getAll();
         T GetFirstOrDefault(Expression<Func<T,bool>> filter);
