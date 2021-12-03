@@ -10,7 +10,7 @@ namespace BulkyBook.DataAccess.Repository
     public interface IRepostory<T> where T : class
     {
         IEnumerable<T> getAll();
-        T getFirstOrDefault(Expression<Func<T,bool>> filter);
+        T GetFirstOrDefault(Expression<Func<T,bool>> filter);
         void Add(T entity);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entities);
