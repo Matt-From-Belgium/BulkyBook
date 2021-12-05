@@ -1,5 +1,6 @@
 ﻿using BulkyBook.DataAccess.Repository;
 using BulkyBook.Models;
+using BulkyBook.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -20,20 +21,20 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            var CategoryList = _unitOfWork.Category.getAll().Select(c => new SelectListItem
+            ProductVM productVm = new();
+            productVm.CategoryList = _unitOfWork.Category.getAll().Select(c => new SelectListItem
             {
                 Text = c.Name,
                 Value = c.Id.ToString()
             });
 
-            var CoverTypeList = _unitOfWork.CoverType.getAll().Select(c => new SelectListItem
+            productVm.CoverTypeList = _unitOfWork.CoverType.getAll().Select(c => new SelectListItem
             {
                 Text = c.Name,
                 Value = c.Id.ToString()
             });
 
-            ViewBag.CategoryList = CategoryList;
-            ViewData["CoverTypeList"] = CoverTypeList;
+            
 
             if (id == 0)
             {
@@ -42,25 +43,25 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                 return View(product);
             }
 
-            return View();
+            return View(productVm);
 
             
         }
 
         [HttpPost]
-        public IActionResult Upsert(Product product)
+        public IActionResult Upsert(ProductVM productVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(product);
+                return View(productVM);
             }
 
-            if(product != null)
+            if(productVM != null)
             {
-                if (product.Id == 0)
-                    _unitOfWork.Product.Add(product);
+                if (productVM.Product.Id == 0)
+                    _unitOfWork.Product.Add(productVM.Product);
                 else
-                    _unitOfWork.Product.Update(product);
+                    _unitOfWork.Product.Update(productVM.Product);
 
                 _unitOfWork.Save();
                     
