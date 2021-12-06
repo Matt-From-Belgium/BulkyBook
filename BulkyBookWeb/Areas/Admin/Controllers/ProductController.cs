@@ -8,11 +8,13 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 {
     public class ProductController : Controller
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductController(IUnitOfWork unitOrWork)
+        public ProductController(IUnitOfWork unitOrWork, IWebHostEnvironment hostEnvironment)
         {
             _unitOfWork = unitOrWork;   
+            _hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -49,7 +51,8 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Upsert(ProductVM productVM)
+        [ValidateAntiForgeryToken]
+        public IActionResult Upsert(ProductVM productVM, IFormFile? file)
         {
             if (!ModelState.IsValid)
             {
@@ -58,10 +61,25 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             if(productVM != null)
             {
-                if (productVM.Product.Id == 0)
-                    _unitOfWork.Product.Add(productVM.Product);
-                else
-                    _unitOfWork.Product.Update(productVM.Product);
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                if(file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRootPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
+                    var fullFileName = Path.Combine(uploads, fileName + extension);
+
+                    using (var fileStream = new FileStream(fullFileName,FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    productVM.Product.ImageUrl = fullFileName;
+                }
+
+                
+                _unitOfWork.Product.Add(productVM.Product);
+                TempData["Success"] = "Product added succesfully";
+                
 
                 _unitOfWork.Save();
                     
