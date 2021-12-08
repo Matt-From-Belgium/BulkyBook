@@ -76,6 +76,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     var extension = Path.GetExtension(file.FileName);
                     var fullFileName = Path.Combine(uploads, fileName + extension);
 
+                    if (productVM.Product.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRootPath, productVM.Product.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
                     using (var fileStream = new FileStream(fullFileName,FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -83,8 +92,32 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     productVM.Product.ImageUrl = fullFileName;
                 }
 
-                
-                _unitOfWork.Product.Add(productVM.Product);
+                if (productVM.Product.Id != 0)
+                {
+                    var productFromDb = _unitOfWork.Product.GetFirstOrDefault(p=>p.Id==productVM.Product.Id);
+                    productFromDb.Title = productVM.Product.Title;
+                    productFromDb.Description = productVM.Product.Description;
+                    productFromDb.Price100 = productVM.Product.Price100;
+                    productFromDb.ListPrice = productVM.Product.ListPrice;
+                    productFromDb.ISBN = productVM.Product.ISBN;
+                    productFromDb.Price = productVM.Product.Price;
+                    productFromDb.Price50 = productVM.Product.Price50;
+                    productFromDb.Author = productVM.Product.Author;
+                    productFromDb.CategoryId = productVM.Product.CategoryId;
+                    productFromDb.CoverTypeId = productVM.Product.CoverTypeId;
+
+                    if(productVM.Product.ImageUrl != null)
+                    {
+                        productFromDb.ImageUrl = productVM.Product.ImageUrl;
+                    }
+
+                    _unitOfWork.Product.Update(productFromDb);
+
+                }
+                else
+                {
+                    _unitOfWork.Product.Add(productVM.Product);
+                }
                 TempData["Success"] = "Product added succesfully";
                 
 
