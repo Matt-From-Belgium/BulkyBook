@@ -38,7 +38,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             
 
-            if (id != 0)
+            if (id != 0 && id!=null)
             {
                 var productFromDb = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
 
@@ -108,6 +108,12 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
                     if(productVM.Product.ImageUrl != null)
                     {
+                        var oldImagePath = Path.Combine(wwwRootPath, productFromDb.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+
                         productFromDb.ImageUrl = productVM.Product.ImageUrl;
                     }
 
