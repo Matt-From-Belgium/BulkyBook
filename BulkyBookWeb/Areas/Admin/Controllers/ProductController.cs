@@ -88,5 +88,15 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _unitOfWork.Product.getAll(includeProperties:"Category,CoverType");
+            return Json(new { Data = productList }) ; 
+    
+        }
+        #endregion
     }
 }
