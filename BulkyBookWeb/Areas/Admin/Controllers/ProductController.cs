@@ -38,11 +38,18 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             
 
-            if (id == 0)
+            if (id != 0)
             {
-                //Create product
-                Product product = new Product();
-                return View(product);
+                var productFromDb = _unitOfWork.Product.GetFirstOrDefault(p => p.Id == id);
+
+                if(productFromDb == null)
+                {
+                    return NotFound();
+                }
+
+                productVm.Product = productFromDb;
+                    
+                
             }
 
             return View(productVm);
