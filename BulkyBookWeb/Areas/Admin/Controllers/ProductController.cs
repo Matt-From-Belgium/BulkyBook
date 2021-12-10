@@ -143,6 +143,25 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             return Json(new { Data = productList }) ; 
     
         }
+
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(x => x.Id == id);
+            if(productFromDb == null)
+            {
+                return Json(new { Success = false, messlage = "Error while deleting" });
+            }
+
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, productFromDb.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            _unitOfWork.Product.Remove(productFromDb);
+            _unitOfWork.Save();
+            return Json(new { success = true, message = "Delete Successful" });
+            }
         #endregion
     }
 }
