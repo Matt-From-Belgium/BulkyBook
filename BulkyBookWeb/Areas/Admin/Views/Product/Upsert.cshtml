@@ -90,6 +90,11 @@
         
     }
     <script>
+    
+        tinymce.init({
+          selector: 'textarea'
+        });
+    
         function ValidateInput(){
             if(document.getElementById("uploadBox").value==""){
                 Swal.fire({
