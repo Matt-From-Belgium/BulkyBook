@@ -75,6 +75,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     var uploads = Path.Combine(wwwRootPath, @"images\products");
                     var extension = Path.GetExtension(file.FileName);
                     var fullFileName = Path.Combine(uploads, fileName + extension);
+                    var relativeFileName = @"/images/products/" + fileName + extension;
 
                     if (productVM.Product.ImageUrl != null)
                     {
@@ -89,7 +90,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    productVM.Product.ImageUrl = fullFileName;
+                    productVM.Product.ImageUrl = relativeFileName;
                 }
 
                 if (productVM.Product.Id != 0)

@@ -39,6 +39,7 @@ namespace BulkyBook.Models
         public double Price100 { get; set; }
 
         [ValidateNever]
+        [Display(Name ="Cover Image")]
         public string ImageUrl { get; set; }
 
         [Required]
